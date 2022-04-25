@@ -1,6 +1,7 @@
 from django.db import models
 
 # Create your models here.
+# Once your model is created move to serializer
 
 class Song(models.Model):
     title = models.CharField(max_length=300)
