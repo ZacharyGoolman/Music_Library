@@ -6,4 +6,5 @@ from . import views
 
 urlpatterns = [
     path('', views.songs_list),
+    path('<pk>/', views.music_detail),
 ]

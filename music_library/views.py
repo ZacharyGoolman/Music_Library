@@ -1,10 +1,14 @@
-from pydoc import resolve
+from itertools import product
 from urllib import response
+from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import status
 from .serializers import SongSerializer
 from .models import Song
-from rest_framework import status
+from music_library import serializers
+
+
 
 # Create your views here.
 
@@ -23,5 +27,18 @@ def songs_list(request):
         serializer.save()
         return Response (serializer.data, status=status.HTTP_201_CREATED)
 
-# @api_view(['GET',])          
+@api_view(['GET', 'PUT', 'DELETE'])
+def music_detail(request, pk):
+    songs = get_object_or_404(Song, pk=pk)
+    if request.method == 'GET':
+        serializer = SongSerializer(songs);
+        return Response(serializer.data)
+    elif request.method == 'PUT':
+        serializer = SongSerializer(songs, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+    elif request.method == 'DELETE':
+        product.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)           
      
