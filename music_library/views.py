@@ -29,18 +29,35 @@ def songs_list(request):
         serializer.save()
         return Response (serializer.data, status=status.HTTP_201_CREATED)
 
-@api_view(['GET', 'PUT', 'DELETE'])
+@api_view(['GET', 'PUT', 'DELETE', 'PATCH'])
 def music_detail(request, pk):
+
     songs = get_object_or_404(Song, pk=pk)
+
     if request.method == 'GET':
         serializer = SongSerializer(songs);
         return Response(serializer.data)
+
     elif request.method == 'PUT':
         serializer = SongSerializer(songs, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
+
     elif request.method == 'DELETE':
+        custom_response = {'You have just removed': songs.title}
         songs.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)           
+        return Response(custom_response, status=status.HTTP_204_NO_CONTENT)
+
+    elif request.method == 'PATCH':
+         if songs.like >= 0:
+            songs.like += 1
+            serializer = SongSerializer(songs, data=request.data, partial=True)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response(serializer.data)
+       
+
+
+                 
      
