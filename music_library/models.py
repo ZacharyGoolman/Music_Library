@@ -1,3 +1,4 @@
+from email.mime import image
 from django.db import models
 
 # Create your models here.
@@ -10,3 +11,4 @@ class Song(models.Model):
     release_date = models.DateField()
     genre = models.CharField(max_length=300)
     like = models.IntegerField(default=0)
+    media = models.CharField(max_length=250 ,default='no image')

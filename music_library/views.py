@@ -48,15 +48,15 @@ def music_detail(request, pk):
         custom_response = {'You have just removed': songs.title}
         songs.delete()
         return Response(custom_response, status=status.HTTP_204_NO_CONTENT)
-
+        
+# when applying patch in postman dont use a body
     elif request.method == 'PATCH':
          if songs.like >= 0:
             songs.like += 1
             serializer = SongSerializer(songs, data=request.data, partial=True)
             serializer.is_valid(raise_exception=True)
             serializer.save()
-            return Response(serializer.data)
-       
+            return Response(serializer.data)    
 
 
                  
