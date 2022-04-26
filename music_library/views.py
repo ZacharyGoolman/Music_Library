@@ -1,3 +1,4 @@
+# Some imports auto populate and arent needed you can remove them if you want
 from itertools import product
 from urllib import response
 from django.shortcuts import get_object_or_404
@@ -11,9 +12,10 @@ from music_library import serializers
 
 
 # Create your views here.
+# Where we create basic CRUD functionality to test in postman
+# This will tie into our front end
 
-
-@api_view(['GET','POST'])
+@api_view(['GET','POST']) 
 def songs_list(request):
 
     if request.method == 'GET':
@@ -39,6 +41,6 @@ def music_detail(request, pk):
         serializer.save()
         return Response(serializer.data)
     elif request.method == 'DELETE':
-        product.delete()
+        songs.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)           
      
